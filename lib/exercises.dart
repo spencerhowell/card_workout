@@ -3,33 +3,32 @@ import 'dart:collection';
 import 'package:cardworkout/cards.dart';
 
 class Exercises {
-  ListQueue<String> push;
-  ListQueue<String> pull;
-  ListQueue<String> legs;
-  ListQueue<String> isolation;
-  Iterator pushIterator;
-  Iterator pullIterator;
-  Iterator legsIterator;
-  Iterator isolationIterator;
+  List<String> push;
+  List<String> pull;
+  List<String> legs;
+  List<String> isolation;
+  int pushIndex;
+  int pullIndex;
+  int legsIndex;
+  int isolationIndex;
 
   Exercises() {
-    push = ListQueue<String>.from(["Push ups", "Pike push ups", "Standing press", "Lateral raises"]);
-    pull = ListQueue<String>.from(["Pull ups", "Inverted / Dumbbell row", "Rear delt flyes", "Upright row"]);
-    legs = ListQueue<String>.from(["Walking lunges", "Bulgarian split squat", "Single let hip thrust", "Nordic ham curl"]);
-    isolation = ListQueue<String>.from(["Bicep curl", "Skullcrushers", "Bicycle crunch / Reverse crunch", "Standing calf raise"]);
+    push = List<String>.from(["Push ups", "Pike push ups", "Standing press", "Lateral raises"]);
+    pull = List<String>.from(["Pull ups", "Inverted / Dumbbell row", "Rear delt flyes", "Upright row"]);
+    legs = List<String>.from(["Walking lunges", "Bulgarian split squat", "Single let hip thrust", "Nordic ham curl"]);
+    isolation = List<String>.from(["Bicep curl", "Skullcrushers", "Bicycle crunch / Reverse crunch", "Standing calf raise"]);
 
-    pushIterator = push.iterator;
-    pullIterator = pull.iterator;
-    legsIterator = legs.iterator;
-    isolationIterator = isolation.iterator;
+    // Start each index at the beginning of the list
+    pushIndex = 0;
+    pullIndex = 0;
+    legsIndex = 0;
+    isolationIndex = 0;
   }
 
-  String getNextFromList(ListQueue<String> list, Iterator it) {
-    if (!it.moveNext()) {
-      it = list.iterator;
-      it.moveNext();
-    }
-    return it.current;
+  String getNextFromList(List<String> list, int i) {
+    var next = list.elementAt(i % list.length);
+    i++;
+    return next;
   }
 
   String getExercise(PlayingCard card) {
@@ -37,22 +36,28 @@ class Exercises {
       return "Rest 2 minutes";
     }
 
+    var exercise = "";
+
     switch(card.cardSuit) {
       case CardSuit.spades:
-        return getNextFromList(push, pushIterator);
+        exercise = push.elementAt(pushIndex % push.length);
+        pushIndex++;
         break;
       case CardSuit.hearts:
-        return getNextFromList(legs, legsIterator);
+        exercise = legs.elementAt(legsIndex % legs.length);
+        legsIndex++;
         break;
       case CardSuit.diamonds:
-        return getNextFromList(isolation, isolationIterator);
+        exercise = isolation.elementAt(isolationIndex % isolation.length);
+        isolationIndex++;
         break;
       case CardSuit.clubs:
-        return getNextFromList(pull, pullIterator);
+        exercise = pull.elementAt(pullIndex % pull.length);
+        pullIndex++;
         break;
     }
 
     //TODO make this an error message
-    return "Oops";
+    return exercise;
   }
 }
