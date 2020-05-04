@@ -21,13 +21,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   int _currentReps = 10;
 
   void initState() {
+    super.initState();
     _deck = Deck();
     _deck.shuffle();
     _currentCard = _deck.drawCard();
     _exercises = Exercises();
     _currentExercise = _exercises.getExercise(_currentCard);
     _currentReps = _currentCard.getCardValue() + 10;
-    super.initState();
   }
 
   void _nextCard() {
@@ -51,32 +51,40 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Workout in Progress'),
+          centerTitle: true,
+          title: Text('$_currentCardCount / ${widget.totalCards}'),
         ),
         body: Center(
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  ('$_currentCardCount / ${widget.totalCards}'),
-                  style: Theme.of(context).textTheme.subhead,
+                Spacer(flex: 2),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey[500],
+                      width: 4,
+                    ),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Image.asset(_currentCard.getImagePath(), semanticLabel: _currentCard.toString(),),
                 ),
-                Text(
-                  '${_currentCard.toString()}',
-                  style: Theme.of(context).textTheme.display1,
-                ),
+                Spacer(flex: 2),
                 Text(
                   _currentExercise,
                   style: Theme.of(context).textTheme.display1,
+                  textAlign: TextAlign.center,
                 ),
                 Text(
                   '$_currentReps reps',
                   style: Theme.of(context).textTheme.display1,
                 ),
+                Spacer(flex: 2),
                 RaisedButton(
+                  color: Theme.of(context).primaryColor,
                   onPressed: _nextCard,
-                  child: const Text("Next"),
+                  child: Text("NEXT", style: TextStyle(color: Colors.white)),
                 ),
+                Spacer(flex: 1),
               ]),
         ));
   }

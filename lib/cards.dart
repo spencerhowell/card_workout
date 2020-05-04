@@ -69,9 +69,65 @@ class PlayingCard {
     }
   }
 
+  String getRankString() {
+    var rankString = "";
+
+    switch (this.cardRank) {
+      case CardRank.two:
+        rankString = "2";
+        break;
+      case CardRank.three:
+        rankString = "3";
+        break;
+      case CardRank.four:
+        rankString = "4";
+        break;
+      case CardRank.five:
+        rankString = "5";
+        break;
+      case CardRank.six:
+        rankString = "6";
+        break;
+      case CardRank.seven:
+        rankString = "7";
+        break;
+      case CardRank.eight:
+        rankString = "8";
+        break;
+      case CardRank.nine:
+        rankString = "9";
+        break;
+      case CardRank.ten:
+        rankString = "10";
+        break;
+      case CardRank.jack:
+        rankString = "jack";
+        break;
+      case CardRank.queen:
+        rankString = "queen";
+        break;
+      case CardRank.king:
+        rankString = "king";
+        break;
+      case CardRank.ace:
+        rankString = "ace";
+        break;
+    }
+
+    return rankString;
+  }
+
+  String getSuitString() {
+    return this.cardSuit.toString().split('.').last;
+  }
+
   String toString() {
     return (this.cardRank.toString().split('.').last + ' of ' +
         this.cardSuit.toString().split('.').last);
+  }
+
+  String getImagePath() {
+    return ('images/' + this.getRankString() + '_of_' + this.getSuitString() + '.png');
   }
 }
 

@@ -20,6 +20,9 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primaryColor: Colors.red[900],
+        buttonTheme: ButtonThemeData(
+          buttonColor: Theme.of(context).primaryColor,
+        )
       ),
       home: MyHomePage(title: 'CARD Workout'),
     );
@@ -47,7 +50,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _cardCountController =
       TextEditingController.fromValue(TextEditingValue(text: "20"));
-  int _counter = 0;
+      int _counter = 0;
 
   void initState() {
     _cardCountController.addListener(() {
@@ -92,6 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
+      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -120,6 +125,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 controller: _cardCountController,
                 keyboardType: TextInputType.numberWithOptions(),
                 textAlign: TextAlign.right,
+                maxLength: 3,
+                maxLengthEnforced: true,
                 style: TextStyle(
                   fontSize: 40.0,
                   height: 2.0,
