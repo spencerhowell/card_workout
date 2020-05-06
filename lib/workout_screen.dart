@@ -132,13 +132,26 @@ class _WorkoutScreenState extends State<WorkoutScreen>
               Spacer(flex: 2),
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
+                layoutBuilder:
+                    (Widget currentChild, List<Widget> previousChildren) {
+                  return Stack(
+                    children: <Widget>[
+                      if (currentChild != null) currentChild,
+                      ...previousChildren,
+                    ],
+                    alignment: Alignment.center,
+                  );
+                },
                 transitionBuilder: (Widget child, Animation<double> animation) {
-                  final inAnimation =
-                    MaterialPointArcTween(begin: Offset(-2.0, 0.0), end: Offset(0.0, 0.0)).animate(animation);
-                  final outAnimation =
-                    MaterialPointArcTween(begin: Offset(2.0, 0.0), end: Offset(0.0, 0.0)).animate(animation);
+                  final inAnimation = MaterialPointArcTween(
+                          begin: Offset(-2.0, 0.0), end: Offset(0.0, 0.0))
+                      .animate(animation);
+                  final outAnimation = MaterialPointArcTween(
+                          begin: Offset(0.0, 0.0), end: Offset(0.0, 0.0))
+                      .animate(animation);
                   if (child.key == ValueKey(_currentCardCount)) {
-                    return SlideTransition(child: child, position: outAnimation);
+                    return SlideTransition(
+                        child: child, position: outAnimation);
                   } else {
                     return SlideTransition(child: child, position: inAnimation);
                   }
@@ -146,6 +159,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                 child: Container(
                   key: ValueKey<int>(_currentCardCount),
                   decoration: BoxDecoration(
+                    color: Colors.white,
                     border: Border.all(
                       color: Colors.grey[500],
                       width: 4,

@@ -1,3 +1,4 @@
+import 'package:cardworkout/about.dart';
 import 'package:cardworkout/workout_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +51,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _cardCountController =
       TextEditingController.fromValue(TextEditingValue(text: "20"));
-      int _counter = 0;
 
   void initState() {
     _cardCountController.addListener(() {
@@ -68,17 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     _cardCountController.dispose();
     super.dispose();
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
   }
 
   @override
@@ -133,6 +122,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.black,
                 ),
                 decoration: InputDecoration(
+                    // Hide the counter below the text field
+                    counterStyle: TextStyle(height: double.minPositive),
+                    counterText: "",
                     suffixText: " cards",
                     suffixStyle: TextStyle(fontSize: 20.0)),
               ),
@@ -152,7 +144,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(width: 1.0, height: 200.0),
             FlatButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AboutScreen()),
+                  );
+                },
                 icon: Icon(Icons.info),
                 label: const Text(
                   'About',
