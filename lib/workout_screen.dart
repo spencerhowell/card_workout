@@ -183,10 +183,20 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                 style: Theme.of(context).textTheme.display1,
               ),
               Spacer(flex: 2),
-              RaisedButton(
-                color: Theme.of(context).primaryColor,
-                onPressed: _nextCard,
-                child: Text("NEXT", style: TextStyle(color: Colors.white)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {},
+                    child: Text("PREVIOUS", style: TextStyle(color: Colors.white)),
+                  ),
+                  RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    onPressed: _nextCard,
+                    child: Text("NEXT", style: TextStyle(color: Colors.white)),
+                  ),
+                ],
               ),
               Spacer(flex: 1),
             ]),
