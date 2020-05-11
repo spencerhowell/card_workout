@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:cardworkout/cards.dart';
 
 class Exercises {
@@ -8,14 +6,14 @@ class Exercises {
   List<String> legs;
   List<String> isolation;
   int pushIndex;
-  int pullIndex;
+int pullIndex;
   int legsIndex;
   int isolationIndex;
 
   Exercises() {
     push = List<String>.from(["Push ups", "Pike push ups", "Standing press", "Lateral raises"]);
     pull = List<String>.from(["Pull ups", "Inverted / Dumbbell row", "Rear delt flyes", "Upright row"]);
-    legs = List<String>.from(["Walking lunges", "Bulgarian split squat", "Single let hip thrust", "Nordic ham curl"]);
+    legs = List<String>.from(["Walking lunges", "Bulgarian split squat", "Single leg hip thrust", "Nordic ham curl"]);
     isolation = List<String>.from(["Bicep curl", "Skullcrushers", "Bicycle crunch / Reverse crunch", "Standing calf raise"]);
 
     // Start each index at the beginning of the list
@@ -33,7 +31,7 @@ class Exercises {
 
   String getExercise(PlayingCard card) {
     if (card.cardRank == CardRank.ace) {
-      return "Rest 2 minutes";
+      return "Rest";
     }
 
     var exercise = "";
