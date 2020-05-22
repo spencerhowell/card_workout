@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'cards.dart';
+import 'strings.dart';
 
 class WorkoutScreen extends StatefulWidget {
   WorkoutScreen({Key key, this.totalCards}) : super(key: key);
@@ -48,7 +49,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => MyHomePage(title: 'CARD Workout')));
+              builder: (context) => MyHomePage(title: Strings.appTitle)));
     } else {
       setState(() {
         _currentCardCount++;
@@ -79,15 +80,15 @@ class _WorkoutScreenState extends State<WorkoutScreen>
     return (await showDialog(
             context: context,
             builder: (context) => AlertDialog(
-                  titleTextStyle: Theme.of(context).textTheme.headline,
-                  contentTextStyle: Theme.of(context).textTheme.body1,
-                  title: Text('Quit workout?'),
-                  content: Text('All progress will be lost'),
+                  titleTextStyle: Theme.of(context).textTheme.headline5,
+                  contentTextStyle: Theme.of(context).textTheme.bodyText2,
+                  title: Text(Strings.quitDialogTitle),
+                  content: Text(Strings.quitDialogBody),
                   actions: <Widget>[
                     new FlatButton(
                       onPressed: () => Navigator.of(context).pop(false),
                       child: Text(
-                        'NO',
+                        Strings.quitDialogNegative,
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 18.0),
@@ -96,7 +97,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                     new FlatButton(
                       onPressed: () => Navigator.of(context).pop(true),
                       child: Text(
-                        'YES',
+                        Strings.quitDialogPositive,
                         style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 18.0),
@@ -114,7 +115,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
           seconds: (_restCountdown % Duration.secondsPerMinute));
       return '${duration.toString()}';
     } else {
-      return '$_currentReps reps';
+      return '$_currentReps ' + Strings.exerciseReps;
     }
   }
 
@@ -175,12 +176,12 @@ class _WorkoutScreenState extends State<WorkoutScreen>
               Spacer(flex: 2),
               Text(
                 _currentExercise,
-                style: Theme.of(context).textTheme.display1,
+                style: Theme.of(context).textTheme.headline4,
                 textAlign: TextAlign.center,
               ),
               Text(
                 _repsOrRest(),
-                style: Theme.of(context).textTheme.display1,
+                style: Theme.of(context).textTheme.headline4,
               ),
               Spacer(flex: 2),
               Row(
@@ -189,12 +190,14 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                   RaisedButton(
                     color: Theme.of(context).primaryColor,
                     onPressed: () {},
-                    child: Text("PREVIOUS", style: TextStyle(color: Colors.white)),
+                    child: Text(Strings.previousButtonText,
+                        style: TextStyle(color: Colors.white)),
                   ),
                   RaisedButton(
                     color: Theme.of(context).primaryColor,
                     onPressed: _nextCard,
-                    child: Text("NEXT", style: TextStyle(color: Colors.white)),
+                    child: Text(Strings.nextButtonText,
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ],
               ),

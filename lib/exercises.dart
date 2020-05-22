@@ -1,20 +1,42 @@
 import 'package:cardworkout/cards.dart';
 
+import 'strings.dart';
+
 class Exercises {
   List<String> push;
   List<String> pull;
   List<String> legs;
   List<String> isolation;
   int pushIndex;
-int pullIndex;
+  int pullIndex;
   int legsIndex;
   int isolationIndex;
 
   Exercises() {
-    push = List<String>.from(["Push ups", "Pike push ups", "Standing press", "Lateral raises"]);
-    pull = List<String>.from(["Pull ups", "Inverted / Dumbbell row", "Rear delt flyes", "Upright row"]);
-    legs = List<String>.from(["Walking lunges", "Bulgarian split squat", "Single leg hip thrust", "Nordic ham curl"]);
-    isolation = List<String>.from(["Bicep curl", "Skullcrushers", "Bicycle crunch / Reverse crunch", "Standing calf raise"]);
+    push = List<String>.from([
+      Strings.pushUps,
+      Strings.pikePushUps,
+      Strings.standingPress,
+      Strings.lateralRaises
+    ]);
+    pull = List<String>.from([
+      Strings.pullUpVariation,
+      Strings.rowVariation,
+      Strings.rearDeltFlyes,
+      Strings.uprightRow,
+    ]);
+    legs = List<String>.from([
+      Strings.walkingLunges,
+      Strings.bulgarianSplitSquat,
+      Strings.singleLegHipThrust,
+      Strings.nordicHamCurl,
+    ]);
+    isolation = List<String>.from([
+      Strings.bicepCurl,
+      Strings.skullcrushers,
+      Strings.crunchVariation,
+      Strings.standingCalfRaise,
+    ]);
 
     // Start each index at the beginning of the list
     pushIndex = 0;
@@ -36,7 +58,7 @@ int pullIndex;
 
     var exercise = "";
 
-    switch(card.cardSuit) {
+    switch (card.cardSuit) {
       case CardSuit.spades:
         exercise = push.elementAt(pushIndex % push.length);
         pushIndex++;
