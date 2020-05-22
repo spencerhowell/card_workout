@@ -125,6 +125,9 @@ class _WorkoutScreenState extends State<WorkoutScreen>
       onWillPop: _onWillPop,
       child: Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () => Navigator.of(context).maybePop()),
             centerTitle: true,
             title: Text('$_currentCardCount / ${widget.totalCards}'),
           ),
