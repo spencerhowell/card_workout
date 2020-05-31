@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'cards.dart';
 import 'strings.dart';
+import 'workout_set.dart';
 
 class WorkoutScreen extends StatefulWidget {
   WorkoutScreen({Key key, this.totalCards}) : super(key: key);
@@ -17,12 +18,11 @@ class WorkoutScreen extends StatefulWidget {
 
 class _WorkoutScreenState extends State<WorkoutScreen>
     with SingleTickerProviderStateMixin {
-  int _currentCardCount = 1;
   Deck _deck;
-  PlayingCard _currentCard;
   Exercises _exercises;
-  String _currentExercise;
-  int _currentReps = 10;
+  List<WorkoutSet> _sets;
+  WorkoutSet _currentSet;
+
   Timer _restTimer;
   int _restCountdown = 120;
 
@@ -31,10 +31,9 @@ class _WorkoutScreenState extends State<WorkoutScreen>
     super.initState();
     _deck = Deck();
     _deck.shuffle();
-    _currentCard = _deck.drawCard();
+    _sets = [];
     _exercises = Exercises();
-    _currentExercise = _exercises.getExercise(_currentCard);
-    _currentReps = _currentCard.getCardValue() + 10;
+    _setSet(_newSet());
   }
 
   @override
@@ -43,24 +42,59 @@ class _WorkoutScreenState extends State<WorkoutScreen>
     super.dispose();
   }
 
-  void _nextCard() {
-    if (_currentCardCount == widget.totalCards) {
+  void _setSet(WorkoutSet set) {
+    setState(() {
+      _currentSet = set;
+    });
+  }
+
+  WorkoutSet _newSet() {
+    PlayingCard _newCard = _deck.drawCard();
+    String _newExercise = _exercises.getExercise(_newCard);
+    int _newSetNumber = _sets.length + 1;
+    int _newGoalReps = _newCard.getCardValue() + 10;
+
+    var newSet = WorkoutSet(
+        card: _newCard,
+        exercise: _newExercise,
+        setNumber: _newSetNumber,
+        goalReps: _newGoalReps);
+
+    _sets.add(newSet);
+    return newSet;
+  }
+
+  void _previousSet() {
+    if (_currentSet.setNumber == 1) {
+      return;
+    }
+
+    var previousSet = _sets.elementAt(_currentSet.setNumber - 2);
+    //TODO throw error if previousSet is NULL
+
+    _setSet(previousSet);
+  }
+
+  void _nextSet() {
+    if (_currentSet.setNumber == widget.totalCards) {
+      // End workout after last card
       //TODO connect to summary page
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => MyHomePage(title: Strings.appTitle)));
+    } else if (_currentSet.setNumber == _sets.length) {
+      _setSet(_newSet());
     } else {
-      setState(() {
-        _currentCardCount++;
-        _currentCard = _deck.drawCard();
-        _currentExercise = _exercises.getExercise(_currentCard);
-        _currentReps = _currentCard.getCardValue() + 10;
-        if (_currentCard.cardRank == CardRank.ace) {
-          startRestTimer();
-        }
-      });
+      _setSet(_sets.elementAt(_currentSet.setNumber));
     }
+
+    //TODO investigate starting timer outside of setState
+    setState(() {
+      if (_currentSet.card.cardRank == CardRank.ace) {
+        startRestTimer();
+      }
+    });
   }
 
   void startRestTimer() {
@@ -109,14 +143,94 @@ class _WorkoutScreenState extends State<WorkoutScreen>
   }
 
   String _repsOrRest() {
-    if (_currentCard.cardRank == CardRank.ace) {
+    if (_currentSet.card.cardRank == CardRank.ace) {
       var duration = Duration(
           minutes: (_restCountdown / Duration.secondsPerMinute).floor(),
           seconds: (_restCountdown % Duration.secondsPerMinute));
       return '${duration.toString()}';
     } else {
-      return '$_currentReps ' + Strings.exerciseReps;
+      return '${_currentSet.goalReps} ' + Strings.exerciseReps;
     }
+  }
+
+  Widget _cardPageView() {
+    final controller = PageController(
+      initialPage: 1,
+    );
+
+    return PageView(controller: controller, children: [
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.grey[500],
+            width: 4,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Image.asset(
+          _currentSet.card.getImagePath(),
+          semanticLabel: _currentSet.card.toString(),
+        ),
+      ),
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.grey[500],
+            width: 4,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Image.asset(
+          _currentSet.card.getImagePath(),
+          semanticLabel: _currentSet.card.toString(),
+        ),
+      ),
+    ]);
+  }
+
+  Widget _cardDisplay() {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500),
+      layoutBuilder: (Widget currentChild, List<Widget> previousChildren) {
+        return Stack(
+          children: <Widget>[
+            if (currentChild != null) currentChild,
+            ...previousChildren,
+          ],
+          alignment: Alignment.center,
+        );
+      },
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        final inAnimation = MaterialPointArcTween(
+                begin: Offset(-2.0, 0.0), end: Offset(0.0, 0.0))
+            .animate(animation);
+        final outAnimation = MaterialPointArcTween(
+                begin: Offset(0.0, 0.0), end: Offset(0.0, 0.0))
+            .animate(animation);
+        if (child.key == ValueKey(_currentSet.setNumber)) {
+          return SlideTransition(child: child, position: outAnimation);
+        } else {
+          return SlideTransition(child: child, position: inAnimation);
+        }
+      },
+      child: Container(
+        key: ValueKey<int>(_currentSet.setNumber),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.grey[500],
+            width: 4,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Image.asset(
+          _currentSet.card.getImagePath(),
+          semanticLabel: _currentSet.card.toString(),
+        ),
+      ),
+    );
   }
 
   @override
@@ -129,56 +243,15 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                 icon: Icon(Icons.close),
                 onPressed: () => Navigator.of(context).maybePop()),
             centerTitle: true,
-            title: Text('$_currentCardCount / ${widget.totalCards}'),
+            title: Text('${_currentSet.setNumber} / ${widget.totalCards}'),
           ),
           body: Center(
             child: Column(children: <Widget>[
               Spacer(flex: 2),
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
-                layoutBuilder:
-                    (Widget currentChild, List<Widget> previousChildren) {
-                  return Stack(
-                    children: <Widget>[
-                      if (currentChild != null) currentChild,
-                      ...previousChildren,
-                    ],
-                    alignment: Alignment.center,
-                  );
-                },
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  final inAnimation = MaterialPointArcTween(
-                          begin: Offset(-2.0, 0.0), end: Offset(0.0, 0.0))
-                      .animate(animation);
-                  final outAnimation = MaterialPointArcTween(
-                          begin: Offset(0.0, 0.0), end: Offset(0.0, 0.0))
-                      .animate(animation);
-                  if (child.key == ValueKey(_currentCardCount)) {
-                    return SlideTransition(
-                        child: child, position: outAnimation);
-                  } else {
-                    return SlideTransition(child: child, position: inAnimation);
-                  }
-                },
-                child: Container(
-                  key: ValueKey<int>(_currentCardCount),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.grey[500],
-                      width: 4,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Image.asset(
-                    _currentCard.getImagePath(),
-                    semanticLabel: _currentCard.toString(),
-                  ),
-                ),
-              ),
+              _cardDisplay(),
               Spacer(flex: 2),
               Text(
-                _currentExercise,
+                _currentSet.exercise,
                 style: Theme.of(context).textTheme.headline4,
                 textAlign: TextAlign.center,
               ),
@@ -190,21 +263,21 @@ class _WorkoutScreenState extends State<WorkoutScreen>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  RaisedButton(
+                  MaterialButton(
                     color: Theme.of(context).primaryColor,
-                    onPressed: () {},
+                    onPressed: _previousSet,
                     child: Text(Strings.previousButtonText,
                         style: TextStyle(color: Colors.white)),
                   ),
-                  RaisedButton(
+                  MaterialButton(
                     color: Theme.of(context).primaryColor,
-                    onPressed: _nextCard,
+                    onPressed: _nextSet,
                     child: Text(Strings.nextButtonText,
                         style: TextStyle(color: Colors.white)),
                   ),
                 ],
               ),
-              Spacer(flex: 1),
+              SizedBox(height: 20.0),
             ]),
           )),
     );
