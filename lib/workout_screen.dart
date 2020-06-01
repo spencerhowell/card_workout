@@ -263,21 +263,30 @@ class _WorkoutScreenState extends State<WorkoutScreen>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  MaterialButton(
-                    color: Theme.of(context).primaryColor,
-                    onPressed: _previousSet,
-                    child: Text(Strings.previousButtonText,
-                        style: TextStyle(color: Colors.white)),
+                  SizedBox(width: 16.0),
+                  Expanded(
+                    child: MaterialButton(
+                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      color: Theme.of(context).primaryColor,
+                      onPressed: _previousSet,
+                      child: Text(Strings.previousButtonText,
+                          style: TextStyle(color: Colors.white)),
+                    ),
                   ),
-                  MaterialButton(
-                    color: Theme.of(context).primaryColor,
-                    onPressed: _nextSet,
-                    child: Text(Strings.nextButtonText,
-                        style: TextStyle(color: Colors.white)),
+                  SizedBox(width: 16.0),
+                  Expanded(
+                    child: MaterialButton(
+                      padding: EdgeInsets.all(16.0),
+                      color: Theme.of(context).primaryColor,
+                      onPressed: _nextSet,
+                      child: Text(Strings.nextButtonText,
+                          style: TextStyle(color: Colors.white)),
+                    ),
                   ),
+                  SizedBox(width: 16.0),
                 ],
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 16.0),
             ]),
           )),
     );
