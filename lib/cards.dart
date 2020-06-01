@@ -117,6 +117,72 @@ class PlayingCard {
     return rankString;
   }
 
+  // Return two-character string consisting of rank and emoji
+  String getAbbreviatedString() {
+    var _shortString = "";
+
+    switch(this.cardRank) {
+      case CardRank.two:
+        _shortString = "2";
+        break;
+      case CardRank.three:
+        _shortString = "3";
+        break;
+      case CardRank.four:
+        _shortString = "4";
+        break;
+      case CardRank.five:
+         _shortString = "5";
+        break;
+      case CardRank.six:
+         _shortString = "6";
+        break;
+      case CardRank.seven:
+         _shortString = "7";
+        break;
+      case CardRank.eight:
+         _shortString = "8";
+        break;
+      case CardRank.nine:
+         _shortString = "9";
+        break;
+      case CardRank.ten:
+         _shortString = "10";
+        break;
+      case CardRank.jack:
+         _shortString = "J";
+        break;
+      case CardRank.queen:
+         _shortString = "Q";
+        break;
+      case CardRank.king:
+         _shortString = "K";
+        break;
+      case CardRank.ace:
+        _shortString = "A";
+        break;
+    }
+
+    _shortString += " ";
+
+    switch (this.cardSuit) {
+      case CardSuit.spades:
+        _shortString += "\u2660";
+        break;
+      case CardSuit.hearts:
+        _shortString += "\u2665";
+        break;
+      case CardSuit.diamonds:
+        _shortString += "\u2666";
+        break;
+      case CardSuit.clubs:
+        _shortString += "\u2663";
+        break;
+    }
+
+    return _shortString;
+  }
+
   String getSuitString() {
     return this.cardSuit.toString().split('.').last;
   }

@@ -43,4 +43,8 @@ class Strings {
   static String skullcrushers = "Skullcrushers";
   static String crunchVariation = "Bicycle crunch / Reverse crunch";
   static String standingCalfRaise = "Standing calf raise";
+
+  // Summary Screen Strings
+  static String workoutSummary = "Workout Summary";
+  static String doneButton = "DONE";
 }

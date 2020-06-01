@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:cardworkout/exercises.dart';
-import 'package:cardworkout/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'cards.dart';
 import 'strings.dart';
 import 'workout_set.dart';
+import 'summary.dart';
 
 class WorkoutScreen extends StatefulWidget {
   WorkoutScreen({Key key, this.totalCards}) : super(key: key);
@@ -78,11 +78,12 @@ class _WorkoutScreenState extends State<WorkoutScreen>
   void _nextSet() {
     if (_currentSet.setNumber == widget.totalCards) {
       // End workout after last card
-      //TODO connect to summary page
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => MyHomePage(title: Strings.appTitle)));
+              builder: (context) => SummaryPage(
+                    sets: _sets,
+                  )));
     } else if (_currentSet.setNumber == _sets.length) {
       _setSet(_newSet());
     } else {
@@ -265,22 +266,39 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                 children: <Widget>[
                   SizedBox(width: 16.0),
                   Expanded(
-                    child: MaterialButton(
+                    child: RaisedButton(
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       color: Theme.of(context).primaryColor,
-                      onPressed: _previousSet,
-                      child: Text(Strings.previousButtonText,
-                          style: TextStyle(color: Colors.white)),
+                      onPressed: (_currentSet.setNumber == 1) ? null : _previousSet,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.arrow_back, color: Colors.white),
+                          SizedBox(width: 8.0),
+                          Text(Strings.previousButtonText,
+                              style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(width: 16.0),
                   Expanded(
-                    child: MaterialButton(
+                    child: RaisedButton(
                       padding: EdgeInsets.all(16.0),
                       color: Theme.of(context).primaryColor,
                       onPressed: _nextSet,
-                      child: Text(Strings.nextButtonText,
-                          style: TextStyle(color: Colors.white)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(Strings.nextButtonText,
+                              style: TextStyle(color: Colors.white)),
+                          SizedBox(width: 8.0),
+                          Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(width: 16.0),
