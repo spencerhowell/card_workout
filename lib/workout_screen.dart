@@ -154,43 +154,6 @@ class _WorkoutScreenState extends State<WorkoutScreen>
     }
   }
 
-  Widget _cardPageView() {
-    final controller = PageController(
-      initialPage: 1,
-    );
-
-    return PageView(controller: controller, children: [
-      Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.grey[500],
-            width: 4,
-          ),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Image.asset(
-          _currentSet.card.getImagePath(),
-          semanticLabel: _currentSet.card.toString(),
-        ),
-      ),
-      Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.grey[500],
-            width: 4,
-          ),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Image.asset(
-          _currentSet.card.getImagePath(),
-          semanticLabel: _currentSet.card.toString(),
-        ),
-      ),
-    ]);
-  }
-
   Widget _cardDisplay() {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 500),
@@ -216,19 +179,17 @@ class _WorkoutScreenState extends State<WorkoutScreen>
           return SlideTransition(child: child, position: inAnimation);
         }
       },
-      child: Container(
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+        clipBehavior: Clip.hardEdge,
+        elevation: 5.0,
         key: ValueKey<int>(_currentSet.setNumber),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.grey[500],
-            width: 4,
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Image.asset(
+            _currentSet.card.getImagePath(),
+            semanticLabel: _currentSet.card.toString(),
           ),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Image.asset(
-          _currentSet.card.getImagePath(),
-          semanticLabel: _currentSet.card.toString(),
         ),
       ),
     );
