@@ -47,4 +47,10 @@ class Strings {
   // Summary Screen Strings
   static String workoutSummary = "Workout Summary";
   static String doneButton = "DONE";
+
+  // Setup Screen Strings
+  static String setupTitle = "Setup";
+  static String legalNotice = "Legal Notice";
+  static String exerciseSetup = "Exercise setup";
+  static String exerciseSetupSubtitle = "View and modify exercises";
 }

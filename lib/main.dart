@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:cardworkout/about.dart';
+import 'package:cardworkout/setup.dart';
 import 'package:cardworkout/workout_screen.dart';
 import 'package:flutter/material.dart';
-
-import 'strings.dart';
+import 'package:cardworkout/strings.dart';
 
 void main() => runApp(MyApp());
 
@@ -113,7 +113,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: TextStyle(fontSize: 20),
                 )),
             FlatButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SetupPage()),
+                  );
+                },
                 icon: Icon(Icons.settings),
                 label: Text(
                   Strings.setupPageButtonText,
