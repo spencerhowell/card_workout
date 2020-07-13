@@ -116,7 +116,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>
             context: context,
             builder: (context) => AlertDialog(
                   titleTextStyle: Theme.of(context).textTheme.headline5,
-                  contentTextStyle: Theme.of(context).textTheme.bodyText2,
+                  contentTextStyle: Theme.of(context).textTheme.bodyText1,
                   title: Text(Strings.quitDialogTitle),
                   content: Text(Strings.quitDialogBody),
                   actions: <Widget>[
@@ -130,7 +130,14 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                       ),
                     ),
                     new FlatButton(
-                      onPressed: () => Navigator.of(context).pop(true),
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SummaryPage(
+                            sets: _sets,
+                          ),
+                        ),
+                      ),
                       child: Text(
                         Strings.quitDialogPositive,
                         style: TextStyle(
@@ -148,8 +155,10 @@ class _WorkoutScreenState extends State<WorkoutScreen>
       var duration = Duration(
           minutes: (_restCountdown / Duration.secondsPerMinute).floor(),
           seconds: (_restCountdown % Duration.secondsPerMinute));
-      var twoDigitMinutes = duration.inMinutes.remainder(60).toString().padLeft(2, "0");
-      var twoDigitSeconds = duration.inSeconds.remainder(60).toString().padLeft(2, "0");
+      var twoDigitMinutes =
+          duration.inMinutes.remainder(60).toString().padLeft(2, "0");
+      var twoDigitSeconds =
+          duration.inSeconds.remainder(60).toString().padLeft(2, "0");
       return '$twoDigitMinutes:$twoDigitSeconds';
     } else {
       return '${_currentSet.goalReps} ' + Strings.exerciseReps;
@@ -182,7 +191,8 @@ class _WorkoutScreenState extends State<WorkoutScreen>
         }
       },
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15.0))),
         clipBehavior: Clip.hardEdge,
         elevation: 5.0,
         key: ValueKey<int>(_currentSet.setNumber),
@@ -216,7 +226,10 @@ class _WorkoutScreenState extends State<WorkoutScreen>
               Spacer(flex: 2),
               Text(
                 _currentSet.exercise,
-                style: Theme.of(context).textTheme.headline5.apply(fontWeightDelta: 1),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .apply(fontWeightDelta: 1),
                 textAlign: TextAlign.center,
               ),
               Text(
@@ -232,7 +245,8 @@ class _WorkoutScreenState extends State<WorkoutScreen>
                     child: RaisedButton(
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       color: Theme.of(context).primaryColor,
-                      onPressed: (_currentSet.setNumber == 1) ? null : _previousSet,
+                      onPressed:
+                          (_currentSet.setNumber == 1) ? null : _previousSet,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

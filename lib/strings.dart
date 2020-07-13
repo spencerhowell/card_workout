@@ -11,8 +11,8 @@ class Strings {
   static String exerciseReps = "REPS";
   static String previousButtonText = "PREVIOUS";
   static String nextButtonText = "NEXT";
-  static String quitDialogTitle = "Quit workout?";
-  static String quitDialogBody = "All progress will be lost";
+  static String quitDialogTitle = "End workout?";
+  static String quitDialogBody = "You will not be able to return.";
   static String quitDialogNegative = "NO";
   static String quitDialogPositive = "YES";
 
