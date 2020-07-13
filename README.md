@@ -32,6 +32,6 @@ Android Studio was the IDE used to develop this application, but Visual Studio C
 
 Once you have installed Flutter, you will need to run `flutter pub get` to install dependencies for the app.
 
-The last step is to connect a device or launch an emulator, and run the app with your IDE or with `flutter run`
+Finally, connect a device or launch an emulator, then run the app using your IDE or the `flutter run` command.
 
 
