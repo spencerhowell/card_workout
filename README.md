@@ -2,6 +2,8 @@
   
 A mobile app for randomized and fun at-home workouts with limited or no equipment.
 
+![Card Workout Demo GIF](/docs/card-workout-demo.gif)
+
 ## About
 
 The CARD Workout app allows users to follow along with a full-body workout that is randomized
