@@ -214,12 +214,12 @@ class _WorkoutScreenState extends State<WorkoutScreen>
               Spacer(flex: 2),
               Text(
                 _currentSet.exercise,
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.headline5.apply(fontWeightDelta: 1),
                 textAlign: TextAlign.center,
               ),
               Text(
                 _repsOrRest(),
-                style: Theme.of(context).textTheme.headline4,
+                style: Theme.of(context).textTheme.headline5,
               ),
               Spacer(flex: 2),
               Row(

@@ -14,12 +14,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: Strings.appTitle,
-      theme: ThemeData(
-          primaryColor: Colors.red[900],
-          buttonTheme: ButtonThemeData(
-            buttonColor: Theme.of(context).primaryColor,
-          )),
       home: MyHomePage(),
+      theme: ThemeData(
+        fontFamily: 'Rubik',
+        primaryColor: Colors.red[900],
+      ),
     );
   }
 }

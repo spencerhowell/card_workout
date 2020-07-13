@@ -8,7 +8,7 @@ class Strings {
   static String setupPageButtonText = "Setup";
 
   // Workout Screen strings
-  static String exerciseReps = "reps";
+  static String exerciseReps = "REPS";
   static String previousButtonText = "PREVIOUS";
   static String nextButtonText = "NEXT";
   static String quitDialogTitle = "Quit workout?";
